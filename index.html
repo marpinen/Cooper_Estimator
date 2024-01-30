@@ -91,11 +91,10 @@ The default odd track length is for Kuopio-halli.
         let last_lap_time = time;
         let timer_running = false;
         
-        // Function for timing
 		function startTimer() {
 
 			timer_running = true;
-			track_length = document.getElementById("track-length").value; // Update track_length based on user input
+			track_length = document.getElementById("track-length").value;
 			
             // Looping timer function
             let timer = setInterval(function() {
@@ -103,13 +102,15 @@ The default odd track length is for Kuopio-halli.
 				time--;
 				lap_time++;
 
-				let minutes = Math.floor(time / 60); // calculates remaining minutes
-				let seconds = time % 60; // calculates remaining seconds
-                document.getElementById("timer").innerHTML = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`; // timer to MM:SS
+                // Remaining time
+				let minutes = Math.floor(time / 60);
+				let seconds = time % 60;
+                document.getElementById("timer").innerHTML = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 				
-                minutes = Math.floor(lap_time / 60); // calculates remaining minutes for lap time
-				seconds = lap_time % 60; // calculates remaining seconds for lap time
-				document.getElementById("lap-timer").innerHTML = `( ${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} )`; // lap-times to MM:SS
+                // Lap time
+                minutes = Math.floor(lap_time / 60);
+				seconds = lap_time % 60;
+				document.getElementById("lap-timer").innerHTML = `( ${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")} )`;
 
                 // When timer stops
 				if (time === 0) {
@@ -140,24 +141,24 @@ The default odd track length is for Kuopio-halli.
             lap_times.push(time); 
 
             // Calculations
-            let lap_duration = last_lap_time - time; // Duration of the last lap
+            let lap_duration = last_lap_time - time;
             last_lap_time = time; // Update last_lap_time
-            let average_lap_time = (12 * 60 - time) / lap_times.length; // Average lap time
-            let predicted_laps = time / average_lap_time; // Predicted number of laps
-            let predicted_distance = (predicted_laps + lap_times.length) * track_length; // Predicted distance
-            let minutes = Math.floor(lap_duration / 60); // Lap duration minutes
-            let seconds = lap_duration % 60; // Lap duration seconds
+            let average_lap_time = (12 * 60 - time) / lap_times.length;
+            let predicted_laps = time / average_lap_time;
+            let predicted_distance = (predicted_laps + lap_times.length) * track_length;
+            let minutes = Math.floor(lap_duration / 60);
+            let seconds = lap_duration % 60;
 
             // Get, create and set elements for lap list
-            let lap_list = document.getElementById("lap-list"); // Gets the HTML element with the id “lap-list”
-            let lap_time_element = document.createElement("li"); // Creates lap list item element
-
-            lap_time_element.innerHTML = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`; // New list item
-            lap_list.appendChild(lap_time_element); // Appends the item to lap list
+            let lap_list = document.getElementById("lap-list");
+            let lap_time_element = document.createElement("li");
+            lap_time_element.innerHTML = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+            lap_list.appendChild(lap_time_element);
             
-            let distance_prediction = document.createElement("span"); // Creates distance prediction span element beside time
-            distance_prediction.innerHTML = ` Predicted distance: ${Math.round(predicted_distance)} m`; // Distance predictor content
-            lap_time_element.appendChild(distance_prediction); // Append distance prediction to lap list element
+            // Distance prediction
+            let distance_prediction = document.createElement("span");
+            distance_prediction.innerHTML = ` Predicted distance: ${Math.round(predicted_distance)} m`;
+            lap_time_element.appendChild(distance_prediction);
 
             // Reset the lap timer
             lap_time = 0;
